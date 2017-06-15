@@ -1,8 +1,6 @@
 
 # coding: utf-8
 
-# Calendar Application setup: date and start end time variables for future refferences  
-
 # In[ ]:
 
 import csv
@@ -22,11 +20,11 @@ def add_event(ID,title,location,day,start,end):
         writer.writerow(event) 
 
     #Date & Time parsing: string to date format, event 4 and future input
-def strdate(dt):
-    return dt.strftime("%Y-%d-%m")
+    def strdate(dt):
+        return dt.strftime("%Y-%d-%m")
 
-def strtime(tm):
-    return dt.strftime("%H:%M")    
+    def strtime(tm):
+        return dt.strftime("%H:%M")    
     
     # view functionality 
 def view(args):
@@ -35,14 +33,14 @@ def view(args):
             reader = csv.DictReader(f, fieldnames=FIELDS)
             event = [row for row in reader if row['id'] == ID]
             
-            def strpdate(dt):    
-                return dt.strpdate("%Y-%d-%m")
+        def strpdate(dt):    
+            return dt.strpdate("%Y-%d-%m")
         
-            def strptime(tm):
-                return time.strptime("%H:%M")
+        def strptime(tm):
+            return time.strptime("%H:%M")
             
             for row in event:
-             print(row)
+            print(row)
     
     # agenda functionality
 def agenda(args):
@@ -51,29 +49,36 @@ def agenda(args):
                 reader = csv.DictReader(f, fieldnames=FIELDS)
                 event = [row for row in reader if row['day'] == day]            
 
-                def strpdate(dt):    
-                    return dt.strpdate("%Y-%d-%m")
+            def strpdate(dt):    
+                return dt.strpdate("%Y-%d-%m")
 
-                def strptime(tm):
-                    return time.strptime("%H:%M")
+            def strptime(tm):
+                return time.strptime("%H:%M")
 
                 for row in event:
-                 print (row)
+                print (row)
 
     #week functionality            
 def week(args):
-# current_day = date.today()
-# print (current_day)
-#next_week = datetime.timedelta(days = 7)
-#the idea is to create a range between current_day and next_week to use in the week function below
-#[str(end_date + timedelta(days=x)) for x in range((start_date-end_date).days + 1)]
-#once date rage object for next 7 days is generated as range below, the week function will print all events if day in that range
-#def week(next_week):
-    #with open('calendar.csv', 'r') as f:
-              #reader = csv.DictReader(f, fieldnames=FIELDS)
-              #event = [row for row in reader if row['day'] in range(current_day, next_week)]          
-              #for row in event:
-                #print (row)
+current_day = date.today()
+next_week = datetime.timedelta(days = 7)
+
+[str(end_date + timedelta(days=x)) for x in range((start_date-end_date).days + 1)]
+
+    def week(next_week):
+    with open('calendar.csv', 'r') as f:
+              reader = csv.DictReader(f, fieldnames=FIELDS)
+              event = [row for row in reader if row['day'] in range(current_day, next_week)]          
+            
+            
+            def strpdate(dt):    
+                return dt.strpdate("%Y-%d-%m")
+
+            def strptime(tm):
+                return time.strptime("%H:%M")  
+            
+            for row in event:
+            print (row)
 
 
 if __name__ == "__main__": 
@@ -83,26 +88,26 @@ if __name__ == "__main__":
 
 
     # Add event parser 
-    add_event_parser = subparsers.add_parser('add', help='add an event to the calendar') 
-    add_event_parser.set_defaults(func=add_event)
-    # TODO: add add_event_parser.add_argument() 
+add_event_parser = subparsers.add_parser('add', help='add an event to the calendar') 
+add_event_parser.set_defaults(func=add_event)
+add event_parser.add_argument('--FIELDS', type=ls) 
 
-    # View parser 
-    view_parser = subparsers.add_parser('view', help='view event details') 
-    view_parser.set_defaults(func=view)
-    # TODO: add view_parser.add_argument()
+# View parser 
+view_parser = subparsers.add_parser('view', help='view event details') 
+view_parser.set_defaults(func=view)
+add view_parser.add_argument('view', type=values)
 
     # Agenda parser 
-    agenda_parser = subparsers.add_parser('agenda', help='print out the agenda for today') 
-    agenda_parser.set_defaults(func=agenda)
-    # TODO: add agenda_parser.add_argument()
+agenda_parser = subparsers.add_parser('agenda', help='print out the agenda for today') 
+agenda_parser.set_defaults(func=agenda)
+add agenda_parser.add_argument('agenda', type=values)
 
     # Week parser 
-    week_parser = subparsers.add_parser('week', help='display events this week') 
-    week_parser.set_defaults(func=week)
-    # TODO: add week_parser.add_argument()
+week_parser = subparsers.add_parser('week', help='display events this week') 
+week_parser.set_defaults(func=week)
+add week_parser.add_argument('week', type=values)
 
     # Parse args and execute correct function. 
-    args = parser.parse_args()
-    args.func(args)
+args = parser.parse_args()
+args.func(args)
 
